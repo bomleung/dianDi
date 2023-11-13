@@ -1,4 +1,4 @@
-package com.frank.dianDi;
+package com.frank.diandi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

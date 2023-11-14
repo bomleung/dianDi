@@ -1,5 +1,5 @@
 package com.frank.diandi.entity;
-;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,20 +8,20 @@ import java.time.LocalDateTime;
 
 /**
  * @author frank
- * @date 2023/11/13
+ * @date 2023/11/14
  **/
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Comment {
 
     private Long id;
 
-    private String userName;
+    private Long userId;
 
-    private String password;
+    private Long articleId;
 
-    private String salt;
+    private String content;
 
     private String createBy;
 
@@ -30,6 +30,5 @@ public class User {
     private LocalDateTime createTime;
 
     private LocalDateTime updateTime;
-
 
 }

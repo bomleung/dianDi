@@ -46,6 +46,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         User user = new User();
         user.setUserName(userRegisterDTO.getUserName())
                 .setPassword(finalPassword)
+                .setSalt(salt)
                 .setCreateBy(userRegisterDTO.getUserName())
                 .setUpdateBy(userRegisterDTO.getUserName());
         int insertResult = userMapper.insert(user);

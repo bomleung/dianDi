@@ -31,7 +31,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public Result<Boolean> registerUser(UserRegisterDTO userRegisterDTO) {
         LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<User>().eq(User::getUserName, userRegisterDTO.getUserName());
         List<User> userList = userMapper.selectList(queryWrapper);
-        if (userList != null) {
+        if (!userList.isEmpty()) {
             return Result.failed("the same name already exists", false);
         }
 

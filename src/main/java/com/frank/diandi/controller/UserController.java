@@ -31,7 +31,6 @@ public class UserController {
             return Result.failed("password can't be empty", false);
         }
 
-        userService.registerUser(userRegisterDTO);
-        return null;
+        return userService.registerUser(userRegisterDTO);
     }
 }

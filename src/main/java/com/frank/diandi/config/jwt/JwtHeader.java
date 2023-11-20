@@ -11,7 +11,7 @@ import java.io.StringReader;
 @Data
 public class JwtHeader {
 
-    private String algorithm;
+    private String alg;
 
     private String type;
 

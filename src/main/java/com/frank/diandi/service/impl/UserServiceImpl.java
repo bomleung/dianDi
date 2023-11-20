@@ -9,6 +9,7 @@ import com.frank.diandi.entity.User;
 import com.frank.diandi.mapper.UserMapper;
 import com.frank.diandi.service.UserService;
 import com.google.common.base.Objects;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
@@ -22,6 +23,7 @@ import java.util.UUID;
  * @date 2023/11/14
  **/
 @Service
+@Slf4j
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
     @Autowired
@@ -69,9 +71,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             String loginPassword = DigestUtils.md5DigestAsHex((userLoginDTO.getPassword() + user.getSalt()).getBytes());
 
             if (loginPassword.equals(truePassword)) {
+                user.setPassword("").setSalt("");
+                log.info(user.toString());
                 return Result.success("login successful", user);
             }
-            return Result.failed("login failed,please check your password",null);
+            return Result.failed("login failed,please check your password", null);
         }
 
         return Result.failed("login failed,please check you user name", null);

@@ -2,6 +2,7 @@ package com.frank.diandi.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.frank.diandi.common.Result;
 import com.frank.diandi.common.ResultCode;
 import com.frank.diandi.dto.UserLoginDTO;
@@ -12,6 +13,7 @@ import com.frank.diandi.util.JwtUtil;
 import com.frank.diandi.vo.LoginVo;
 import io.jsonwebtoken.Claims;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.checkerframework.checker.index.qual.LengthOf;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
  * @author frank
  * @date 2023/11/15
  **/
+@Slf4j
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -62,7 +65,9 @@ public class UserController {
 
         String jwt = "";
         try {
+            log.info("start create jwt");
             ObjectMapper mapper = new ObjectMapper();
+            mapper.registerModule(new JavaTimeModule());
             jwt = jwtUtil.createJwt(mapper.writeValueAsString(loginResult.getData()));
         } catch (Exception e) {
             return Result.failed("login failed", null);

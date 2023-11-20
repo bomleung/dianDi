@@ -69,7 +69,7 @@ public class JwtUtil {
         JwtBuilder jwtBuilder = Jwts.builder()
                 .setClaims(defaultClaims)
                 .setIssuedAt(nowDate)
-                .signWith(SignatureAlgorithm.forName(jwtConfig.getHeader().getAlgorithm()), secretKey);
+                .signWith(SignatureAlgorithm.forName(jwtConfig.getHeader().getAlg()), secretKey);
 
         return jwtBuilder.compact();
     }

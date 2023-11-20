@@ -14,7 +14,4 @@ public class UserLoginDTO {
     private String userName;
 
     private String password;
-
-    private String salt;
-
 }

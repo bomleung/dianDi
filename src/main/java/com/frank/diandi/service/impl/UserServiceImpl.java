@@ -3,6 +3,7 @@ package com.frank.diandi.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.frank.diandi.common.Result;
+import com.frank.diandi.dto.UserLoginDTO;
 import com.frank.diandi.dto.UserRegisterDTO;
 import com.frank.diandi.entity.User;
 import com.frank.diandi.mapper.UserMapper;
@@ -59,8 +60,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public Boolean loginUser() {
-        return null;
+    public Result<User> loginUser(UserLoginDTO userLoginDTO) {
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<User>().eq(User::getUserName, userLoginDTO.getUserName());
+        User user = userMapper.selectOne(queryWrapper);
+
+        if (user != null) {
+            String truePassword = user.getPassword();
+            String loginPassword = DigestUtils.md5DigestAsHex((userLoginDTO.getPassword() + user.getSalt()).getBytes());
+
+            if (loginPassword.equals(truePassword)) {
+                return Result.success("login successful", user);
+            }
+            return Result.failed("login failed,please check your password",null);
+        }
+
+        return Result.failed("login failed,please check you user name", null);
     }
 
     @Override

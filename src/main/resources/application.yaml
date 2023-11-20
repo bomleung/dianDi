@@ -8,3 +8,13 @@ spring:
 
 server:
   port: 8010
+
+jwt:
+  secret: 6L6T5LqG5L2g77yM6LWi5LqG5LiW55WM5Y+I6IO95aaC5L2V44CC
+  header:
+    alg: HS256
+  payload:
+    register-claims:
+      iss: bom-cms
+      exp: 60*60*1000*24*7
+      aud: bomshare

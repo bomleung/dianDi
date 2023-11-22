@@ -84,7 +84,7 @@ public class JwtUtil {
         SecretKey secretKey = generateKey();
         Claims claims = Jwts.parser()
                 .setSigningKey(secretKey)
-                .parseClaimsJwt(jwt).getBody();
+                .parseClaimsJws(jwt).getBody();
         return claims;
     }
 

@@ -91,7 +91,9 @@ public class UserController {
         Claims claims = jwtUtil.parseJwt(token);
         String subject = claims.getSubject();
         try {
-            tokenUserInfo = new ObjectMapper().readValue(subject, User.class);
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.registerModule(new JavaTimeModule());
+            tokenUserInfo = mapper.readValue(subject, User.class);
         } catch (JsonProcessingException e) {
             return Result.failed("parse token failed", null);
         }
@@ -101,4 +103,6 @@ public class UserController {
             return Result.failed("user hadn't login in", null);
         }
     }
+
+    //todo:结合redis与JWT实现退出登录功能
 }

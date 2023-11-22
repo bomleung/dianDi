@@ -19,7 +19,7 @@ public interface UserService extends IService<User> {
      * @param userRegisterDTO
      * @return ture-success false-failed
      */
-    public Result<Boolean> registerUser(UserRegisterDTO userRegisterDTO);
+    Result<Boolean> registerUser(UserRegisterDTO userRegisterDTO);
 
 
     /**
@@ -27,12 +27,12 @@ public interface UserService extends IService<User> {
      *
      * @return ture-success false-failed
      */
-    public Result<User> loginUser(UserLoginDTO userLoginDTO);
+    Result<User> loginUser(UserLoginDTO userLoginDTO);
 
     /**
      * user logout
      *
      * @return ture-success false-failed
      */
-    public Boolean logOutUser();
+    Boolean logOutUser();
 }

@@ -2,13 +2,17 @@ package com.frank.diandi.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.frank.diandi.common.Result;
 import com.frank.diandi.dto.UserLoginDTO;
 import com.frank.diandi.dto.UserRegisterDTO;
 import com.frank.diandi.entity.User;
 import com.frank.diandi.mapper.UserMapper;
 import com.frank.diandi.service.UserService;
+import com.frank.diandi.util.JwtUtil;
 import com.google.common.base.Objects;
+import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +32,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
 
     @Override
@@ -79,6 +86,24 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
 
         return Result.failed("login failed,please check you user name", null);
+    }
+
+    @Override
+    public User getUserByToken(String token) {
+        User tokenUserInfo = null;
+
+        Claims claims = null;
+        try {
+            claims = jwtUtil.parseJwt(token);
+            String subject = claims.getSubject();
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.registerModule(new JavaTimeModule());
+            tokenUserInfo = objectMapper.readValue(subject, User.class);
+        } catch (Exception e) {
+            log.error("parse jwt error");
+            return null;
+        }
+        return tokenUserInfo;
     }
 
     @Override

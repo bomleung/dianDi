@@ -30,6 +30,13 @@ public interface UserService extends IService<User> {
     Result<User> loginUser(UserLoginDTO userLoginDTO);
 
     /**
+     * get user by token
+     * @param token
+     * @return user
+     */
+    User getUserByToken(String token);
+
+    /**
      * user logout
      *
      * @return ture-success false-failed

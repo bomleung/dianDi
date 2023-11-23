@@ -1,5 +1,6 @@
 package com.frank.diandi.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.frank.diandi.common.Result;
 import com.frank.diandi.dto.ArticleDTO;
@@ -10,6 +11,8 @@ import com.frank.diandi.mapper.UserMapper;
 import com.frank.diandi.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 /**
@@ -24,6 +27,13 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Autowired
     private UserMapper userMapper;
+
+    @Override
+    public Result<List<Article>> getArticleList(Long userId) {
+        LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<Article>().eq(Article::getUserId, userId);
+        List<Article> articleList = articleMapper.selectList(queryWrapper);
+        return Result.success("get article list success.", articleList);
+    }
 
     @Override
     public Result<Boolean> createArticle(ArticleDTO articleDTO, Long userId) {

@@ -2,11 +2,14 @@ package com.frank.diandi.controller;
 
 import com.frank.diandi.common.Result;
 import com.frank.diandi.dto.ArticleDTO;
+import com.frank.diandi.entity.Article;
 import com.frank.diandi.entity.User;
 import com.frank.diandi.service.ArticleService;
 import com.frank.diandi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author frank
@@ -21,6 +24,12 @@ public class ArticleController {
 
     @Autowired
     private UserService userService;
+
+    @RequestMapping("/getArticleList")
+    public Result<List<Article>> getArticleList(@RequestHeader(value = "token", required = true) String token) {
+        User currentUser = userService.getUserByToken(token);
+        return articleService.getArticleList(currentUser.getId());
+    }
 
     @RequestMapping("/create")
     public Result<Boolean> createArticle(@RequestBody ArticleDTO articleDTO, @RequestHeader(value = "token", required = true) String token) {

@@ -42,4 +42,13 @@ public class ArticleController {
         User currentUser = userService.getUserByToken(token);
         return articleService.updateArticle(articleDTO, currentUser.getId());
     }
+
+    @RequestMapping("/remove")
+    public Result<Boolean> deleteArticle(@RequestBody ArticleDTO articleDTO, @RequestHeader(value = "token", required = true) String token) {
+        boolean remove = articleService.removeById(articleDTO.getArticleId());
+        if (remove) {
+            return Result.success("remove article success.", true);
+        }
+        return Result.failed("remove article failed", false);
+    }
 }
